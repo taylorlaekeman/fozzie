@@ -5,15 +5,12 @@ class Fuzzer {
 
   public static void main(String[] args) {
     int commands = (args.length > 0) ? Integer.parseInt(args[NUM_COMMANDS_INDEX]) : 1;
-    Command command;
-    for (int i = 0; i < commands; i++) {
-      command = Command.makeRandom(i);
-      System.out.println(command);
-    }
+    for (int i = 0; i < commands; i++)
+      System.out.println(CommandFactory.makeRandomCommand(i));
   }
 }
 
-abstract class Command {
+abstract class CommandFactory {
   private static final int NUM_COMMAND_TYPES = 8;
   private static final int REF = 0;
   private static final int PCMD = 1;
@@ -24,6 +21,33 @@ abstract class Command {
   private static final int COMWDG = 6;
   private static final int CALIB = 7;
 
+  static Command makeRandomCommand(int sequenceNumber) {
+    int commandToMake = (new Random()).nextInt(NUM_COMMAND_TYPES);
+    switch (commandToMake) {
+      case REF :
+        return new RefCommand(sequenceNumber);
+      case PCMD :
+        return new PcmdCommand(sequenceNumber);
+      case PCMD_MAG :
+        return new PcmdMagCommand(sequenceNumber);
+      case FTRIM :
+        return new FtrimCommand(sequenceNumber);
+      case CONFIG :
+        return new ConfigCommand(sequenceNumber);
+      case CONFIG_IDS :
+        return new ConfigIdsCommand(sequenceNumber);
+      case COMWDG :
+        return new ComwdgCommand(sequenceNumber);
+      case CALIB :
+        return new CalibCommand(sequenceNumber);
+      default:
+        return null;
+    }
+  }
+}
+
+abstract class Command {
+
   String name;
   int sequenceNumber;
   Random random;
@@ -32,40 +56,6 @@ abstract class Command {
     this.sequenceNumber = sequenceNumber;
     this.random = new Random();
     this.makeParameters();
-  }
-
-  public static Command makeRandom(int sequenceNumber) {
-    int selection = (new Random()).nextInt(NUM_COMMAND_TYPES);
-    Command command;
-    switch (selection) {
-      case REF :
-        command = new RefCommand(sequenceNumber);
-        break;
-      case PCMD :
-        command = new PcmdCommand(sequenceNumber);
-        break;
-      case PCMD_MAG :
-        command = new PcmdMagCommand(sequenceNumber);
-        break;
-      case FTRIM :
-        command = new FtrimCommand(sequenceNumber);
-        break;
-      case CONFIG :
-        command = new ConfigCommand(sequenceNumber);
-        break;
-      case CONFIG_IDS :
-        command = new ConfigIdsCommand(sequenceNumber);
-        break;
-      case COMWDG :
-        command = new ComwdgCommand(sequenceNumber);
-        break;
-      case CALIB :
-        command = new CalibCommand(sequenceNumber);
-        break;
-      default:
-        return null;
-    }
-    return command;
   }
 
   abstract void makeParameters();
