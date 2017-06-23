@@ -31,6 +31,7 @@ abstract class Command {
   public Command(int sequenceNumber) {
     this.sequenceNumber = sequenceNumber;
     this.random = new Random();
+    this.makeParameters();
   }
 
   public static Command makeRandom(int sequenceNumber) {
@@ -64,7 +65,6 @@ abstract class Command {
       default:
         return null;
     }
-    command.makeParameters();
     return command;
   }
 
