@@ -1,4 +1,7 @@
+package fozzie.fuzzer;
+
 import java.util.Random;
+import fozzie.fuzzer.commands.*;
 
 public abstract class CommandFactory {
   private static final int NUM_COMMAND_TYPES = 8;
@@ -11,7 +14,7 @@ public abstract class CommandFactory {
   private static final int COMWDG = 6;
   private static final int CALIB = 7;
 
-  static Command makeRandomCommand(int sequenceNumber) {
+  public static Command makeRandomCommand(int sequenceNumber) {
     int commandToMake = (new Random()).nextInt(NUM_COMMAND_TYPES);
     switch (commandToMake) {
       case REF :

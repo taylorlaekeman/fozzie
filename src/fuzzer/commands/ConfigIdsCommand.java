@@ -1,3 +1,5 @@
+package fozzie.fuzzer.commands;
+
 public class ConfigIdsCommand extends Command {
 
   int session, user, application;

@@ -1,3 +1,5 @@
+package fozzie.fuzzer.commands;
+
 public class FtrimCommand extends Command {
 
   public FtrimCommand(int sequenceNumber) {
@@ -13,4 +15,3 @@ public class FtrimCommand extends Command {
     return String.format("%s=%d<CR>", name, sequenceNumber);
   }
 }
-

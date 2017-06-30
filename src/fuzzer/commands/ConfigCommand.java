@@ -1,3 +1,5 @@
+package fozzie.fuzzer.commands;
+
 public class ConfigCommand extends Command {
 
   String key, value;

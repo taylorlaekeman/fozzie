@@ -1,11 +1,13 @@
-public class PcmdCommand extends Command {
+package fozzie.fuzzer.commands;
+
+public class PcmdMagCommand extends Command {
 
   int flag;
-  float roll, pitch, gaz, yaw;
+  float roll, pitch, gaz, yaw, psi, psiAccuracy;
 
-  public PcmdCommand(int sequenceNumber) {
+  public PcmdMagCommand(int sequenceNumber) {
     super(sequenceNumber);
-    this.name = "AT*PCMD";
+    this.name = "AT*PCMD_MAG";
   }
 
   @Override
@@ -15,6 +17,8 @@ public class PcmdCommand extends Command {
     pitch = (random.nextFloat() * 2) - 1;
     gaz = (random.nextFloat() * 2) - 1;
     yaw = (random.nextFloat() * 2) - 1;
+    psi = (random.nextFloat() * 2) - 1;
+    psiAccuracy = (random.nextFloat() * 2) - 1;
   }
 
   public int makeFlag() {
@@ -26,6 +30,6 @@ public class PcmdCommand extends Command {
 
   @Override
   public String toString() {
-    return String.format("%s=%d,%d,%f,%f,%f,%f<CR>", name, sequenceNumber, flag, roll, pitch, gaz, yaw);
+    return String.format("%s=%d,%d,%f,%f,%f,%f,%f,%f<CR>", name, sequenceNumber, flag, roll, pitch, gaz, yaw, psi, psiAccuracy);
   }
 }

@@ -1,3 +1,5 @@
+package fozzie.fuzzer.commands;
+
 public class CalibCommand extends Command {
 
   int deviceNumber;

@@ -1,3 +1,5 @@
+package fozzie.fuzzer.commands;
+
 public class ComwdgCommand extends Command {
 
   public ComwdgCommand(int sequenceNumber) {

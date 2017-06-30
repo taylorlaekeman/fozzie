@@ -1,3 +1,5 @@
+package fozzie.fuzzer.commands;
+
 public class RefCommand extends Command {
 
   int flag;
