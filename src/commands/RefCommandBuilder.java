@@ -21,12 +21,6 @@ public class RefCommandBuilder extends CommandBuilder {
 		);
 	}
 
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
-		return makeValid(sequenceNumber);
-	}
-
 	private int getValidFlag() {
 		return 0;
 	}

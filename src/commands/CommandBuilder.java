@@ -33,5 +33,9 @@ public abstract class CommandBuilder {
 	}
 
 	protected abstract String makeValid(int sequenceNumber);
-	protected abstract String makeInvalid(int sequenceNumber);
+
+	protected String makeInvalid(int sequenceNumber) {
+		/* if no invalid commands exist, generate valid command */
+		return makeValid(sequenceNumber);
+	}
 }

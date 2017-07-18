@@ -16,10 +16,4 @@ public class ComwdgCommandBuilder extends CommandBuilder {
 	protected String makeValid(int sequenceNumber) {
 		return String.format("AT*CALIB=%d<CR>", sequenceNumber);
 	}
-
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* there is no invalid comwdg command */
-		return makeValid(sequenceNumber);
-	}
 }

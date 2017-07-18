@@ -23,12 +23,6 @@ public class ConfigIdsCommandBuilder extends CommandBuilder {
 		);
 	}
 
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
-		return makeValid(sequenceNumber);
-	}
-
 	private int getValidSession() {
 		return 0;
 	}

@@ -29,12 +29,6 @@ public class PcmdMagCommandBuilder extends PcmdCommandBuilder {
 		);
 	}
 
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
-		return makeValid(sequenceNumber);
-	}
-
 	protected float getValidPsi() {
 		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
 	}

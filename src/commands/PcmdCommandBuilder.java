@@ -27,12 +27,6 @@ public class PcmdCommandBuilder extends CommandBuilder {
 		);
 	}
 
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
-		return makeValid(sequenceNumber);
-	}
-
 	protected int getValidFlag() {
     int absoluteControlEnableBit = CommandFactory.RANDOM.nextInt(2);
     int combinedYawEnableBit = CommandFactory.RANDOM.nextInt(2);

@@ -22,12 +22,6 @@ public class ConfigCommandBuilder extends CommandBuilder {
 		);
 	}
 
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
-		return makeValid(sequenceNumber);
-	}
-
 	private String getValidSettingName() {
 		return "temp valid setting name";
 	}

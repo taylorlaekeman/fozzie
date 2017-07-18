@@ -21,12 +21,6 @@ public class CalibCommandBuilder extends CommandBuilder {
 		);
 	}
 
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
-		return makeValid(sequenceNumber);
-	}
-
 	/* Device number is retrievable using ardrone_calibration_device_t, cannot be randomly generated */
 
 	private static int getValidDeviceNumber() {

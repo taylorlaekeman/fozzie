@@ -16,10 +16,4 @@ public class FtrimCommandBuilder extends CommandBuilder {
 	protected String makeValid(int sequenceNumber) {
 		return String.format("AT*FTRIM=%d<CR>", sequenceNumber);
 	}
-
-	@Override
-	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
-		return makeValid(sequenceNumber);
-	}
 }
