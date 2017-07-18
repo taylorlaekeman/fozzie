@@ -19,7 +19,7 @@ public class FtrimCommandBuilder extends CommandBuilder {
 
 	@Override
 	protected String makeInvalid(int sequenceNumber) {
-		/* not yet implemented */
+		/* no invalid ftrim commands */
 		return makeValid(sequenceNumber);
 	}
 }
