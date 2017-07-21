@@ -31,16 +31,17 @@ public class PcmdMagCommandBuilder extends PcmdCommandBuilder {
 
 	@Override
 	protected String makeInvalid(int sequenceNumber) {
+		// all values should not always be invalid
 		return String.format(
 			"AT*PCMD_MAG=%d,%d,%f,%f,%f,%f,%f,%f<CR>",
 			sequenceNumber,
-			getInvalidFlag(),
-			getInvalidRoll(),
-			getInvalidPitch(),
-			getInvalidGaz(),
-			getInvalidYaw(),
-			getInvalidPsi(),
-			getInvalidPsiAccuracy()
+			CommandFactory.RANDOM.nextBoolean() ? getValidFlag() : getInvalidFlag(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidRoll() : getInvalidRoll(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidPitch() : getInvalidPitch(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidGaz() : getInvalidGaz(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidYaw() : getInvalidYaw(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidPsi() : getInvalidPsi(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidPsiAccuracy() : getInvalidPsiAccuracy()
 		);
 	}
 
@@ -53,16 +54,10 @@ public class PcmdMagCommandBuilder extends PcmdCommandBuilder {
 	}
 
 	protected float getInvalidPsi() {
-		float psi = (CommandFactory.RANDOM.nextFloat() + 1);
-		if (CommandFactory.RANDOM.nextBoolean())
-			psi *= -1;
-		return psi;
+		return makeBadFloat();
 	}
 
 	protected float getInvalidPsiAccuracy() {
-		float psiAccuracy = (CommandFactory.RANDOM.nextFloat() + 1);
-		if (CommandFactory.RANDOM.nextBoolean())
-			psiAccuracy *= -1;
-		return psiAccuracy;
+		return makeBadFloat();
 	}
 }
