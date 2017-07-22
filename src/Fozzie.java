@@ -32,11 +32,16 @@ public class Fozzie {
   	
     for (int i = 0; i < 1; i++){
     	//String commandString = CommandFactory.makeRandomCommand(i).toString();
-    	String commandString = "AT*REF=1,290717696\rAT*REF=2,290717952\rAT*REF=3,290717696\r";
+    	//String commandString = "AT*REF=1,290717696\rAT*REF=2,290717952\rAT*REF=3,290717696\r";
+    	String commandString = "AT*CONFIG=\"general:navdata_demo\",\"TRUE\"\\r";
     	
       System.out.println(commandString.replace("\r", "\\r"));
       
     	byte[] commandBytes =  commandString.getBytes();
+    	
+    	//send 0001 to the navdata port
+    	DatagramPacket navPacketToSend = new DatagramPacket(new byte[]{1, 0, 0, 0}, 4, IPAddress, DRONE_NAVDATA_PORT);
+    	clientSocket.send(navPacketToSend);
     	
     	//constructor arguments: (byte[] buf, int length, InetAddress address, int port)
     	DatagramPacket packetToSend = new DatagramPacket(commandBytes, commandBytes.length, IPAddress, DRONE_PORT);
@@ -45,10 +50,6 @@ public class Fozzie {
     	
     	
     	//https://stackoverflow.com/questions/10055913/set-timeout-for-socket-receive
-    	
-    	//send 0001 to the navdata port
-    	DatagramPacket navPacketToSend = new DatagramPacket(new byte[]{0, 0, 0, 1}, 4, IPAddress, DRONE_NAVDATA_PORT);
-    	clientSocket.send(navPacketToSend);
     	
     	startTime = System.currentTimeMillis();
     	while(true){
