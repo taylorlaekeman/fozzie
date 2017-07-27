@@ -49,8 +49,8 @@ public class RefCommandBuilder extends CommandBuilder {
 	}
 
 	private int getInvalidFlag() {
-		int flag = CommandFactory.RANDOM.nextInt(Integer.MAX_VALUE);
-		flag = flag & (Integer.MAX_VALUE - (1 << 8)); // bitwise and with all 1's except in the emergency bit to ensure emergency bit = 0
+		int flag = CommandFactory.RANDOM.nextInt();
+		flag = flag & (~0 - (1 << 8)); // bitwise and with all 1's except in the emergency bit to ensure emergency bit = 0
 		flag = flag | (1 << 9); // bitwise or with 1 in the takeoff and land bit so the drone doesn't try to land
 		return flag;
 	}
