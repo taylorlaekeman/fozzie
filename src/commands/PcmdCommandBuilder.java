@@ -12,6 +12,33 @@ public class PcmdCommandBuilder extends CommandBuilder {
 		return instance;
 	}
 
+	protected static float makeBadFloat() {
+		if (CommandFactory.RANDOM.nextBoolean())
+			return makeOutOfRangeFloat();
+		else
+			return makeReservedBadFloat();
+	}
+
+	protected static float makeOutOfRangeFloat() {
+		float f = ((CommandFactory.RANDOM.nextFloat() * (Float.MAX_VALUE - 1)) + 1);
+		if (CommandFactory.RANDOM.nextBoolean())
+			f *= -1;
+		return f;
+	}
+
+	protected static float makeReservedBadFloat() {
+		switch (CommandFactory.RANDOM.nextInt(3)) {
+			case 0 :
+				return Float.POSITIVE_INFINITY;
+			case 1 :
+				return Float.NEGATIVE_INFINITY;
+			case 2 :
+				return Float.NaN;
+			default :
+				return 0;
+		}
+	}
+
 	protected PcmdCommandBuilder() {/* prevent instantiation, protected for PcmdMagCommandBuilder */}
 
 	@Override
@@ -27,10 +54,24 @@ public class PcmdCommandBuilder extends CommandBuilder {
 		);
 	}
 
+	@Override
+	protected String makeInvalid(int sequenceNumber) {
+		// all values should not always be invalid
+		return String.format(
+			"AT*PCMD=%d,%d,%f,%f,%f,%f<CR>",
+			sequenceNumber,
+			CommandFactory.RANDOM.nextBoolean() ? getValidFlag() : getInvalidFlag(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidRoll() : getInvalidRoll(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidPitch() : getInvalidPitch(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidGaz() : getInvalidGaz(),
+			CommandFactory.RANDOM.nextBoolean() ? getValidYaw() : getInvalidYaw()
+		);
+	}
+
 	protected int getValidFlag() {
-    int absoluteControlEnableBit = CommandFactory.RANDOM.nextInt(2);
+    int absoluteControlEnableBit = CommandFactory.RANDOM.nextInt(2); 
     int combinedYawEnableBit = CommandFactory.RANDOM.nextInt(2);
-    int progressiveCommandsEnableBit = CommandFactory.RANDOM.nextInt(2);
+    int progressiveCommandsEnableBit = 1;
     return (absoluteControlEnableBit << 2) | (combinedYawEnableBit << 1) | progressiveCommandsEnableBit;
 	}
 
@@ -48,5 +89,27 @@ public class PcmdCommandBuilder extends CommandBuilder {
 
 	protected float getValidYaw() {
 		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
+	}
+
+	protected int getInvalidFlag() {
+		int flag = CommandFactory.RANDOM.nextInt(); // nextInt with no parameters generates a random number between 0 and 2^32 - 1
+		flag = flag | 1; // progressive commands enable bit = 1
+		return flag;
+	}
+
+	protected float getInvalidRoll() {
+		return makeBadFloat();
+	}
+
+	protected float getInvalidPitch() {
+		return makeBadFloat();
+	}
+
+	protected float getInvalidGaz() {
+		return makeBadFloat();
+	}
+
+	protected float getInvalidYaw() {
+		return makeBadFloat();
 	}
 }
