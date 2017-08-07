@@ -2,16 +2,14 @@ package fozzie;
 
 import fozzie.CommandFactory;
 
-import java.io.*;
 import java.net.*;
-import java.lang.*;
 
 public class Fozzie {
 	private static final int PORT = 5556;
 	
 	static CommandFactory.CommandType commandType;
 	static int period;
-	static Boolean valid;
+	static boolean safeMode;
 	static InetAddress ip;
 
 	public static void main(String[] args) throws Exception {
@@ -25,7 +23,7 @@ public class Fozzie {
 		processArguments(args);
 		DatagramSocket socket = new DatagramSocket();
 		while (true) {
-			String command = CommandFactory.makeCommand(1, commandType, valid);
+			String command = CommandFactory.makeCommand(1, commandType, safeMode);
 			System.out.println(command);
 			socket.send(buildPacket(command));
 			Thread.sleep(period);
@@ -42,9 +40,8 @@ public class Fozzie {
 				period = Integer.parseInt(args[i + 1]);
 				i++;
 			}
-			if (args[i].equals("-v")) {
-				valid = Boolean.valueOf(args[i + 1]);
-				i++;
+			if (args[i].equals("-s")) {
+				safeMode = true;
 			}
 		}
 		if (period == 0)

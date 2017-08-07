@@ -6,4 +6,4 @@ Arguments:
 
 - `-c String` a command type
 - `-p int` the delay between generated commands
-- `-v boolean` validity of generated commands
+- `-s` safe mode

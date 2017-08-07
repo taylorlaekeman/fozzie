@@ -13,7 +13,7 @@ public abstract class CommandBuilder {
         return PcmdCommandBuilder.getInstance();
       case PCMD_MAG :
         return PcmdMagCommandBuilder.getInstance();
-      case FTRIM :
+      /*case FTRIM :
         return FtrimCommandBuilder.getInstance();
       case CONFIG :
         return ConfigCommandBuilder.getInstance();
@@ -22,14 +22,23 @@ public abstract class CommandBuilder {
       case COMWDG :
         return ComwdgCommandBuilder.getInstance();
       case CALIB :
-        return CalibCommandBuilder.getInstance();
+        return CalibCommandBuilder.getInstance();*/
       default :
         return null;
 		}
 	}
 
-	public String build(int sequenceNumber, boolean valid) {
-		return (valid) ? makeValid(sequenceNumber) : makeInvalid(sequenceNumber);
+	public String build(int sequenceNumber, boolean valid, boolean safeMode) {
+		String command;
+		if (valid)
+			command = makeValid(sequenceNumber);
+		else {
+			command = makeInvalid(sequenceNumber);
+			if (safeMode) {
+				command += "\\rAT*REF=1,290717696<CR>\\rAT*PCMD=1,0,0,0,0,0<CR>";
+			}
+		}
+		return command;
 	}
 
 	protected abstract String makeValid(int sequenceNumber);

@@ -29,11 +29,11 @@ public class PcmdCommandBuilder extends CommandBuilder {
 	protected static float makeReservedBadFloat() {
 		switch (CommandFactory.RANDOM.nextInt(3)) {
 			case 0 :
-				return Float.POSITIVE_INFINITY;
+				return Float.floatToIntBits(Float.POSITIVE_INFINITY);
 			case 1 :
-				return Float.NEGATIVE_INFINITY;
+				return Float.floatToIntBits(Float.NEGATIVE_INFINITY);
 			case 2 :
-				return Float.NaN;
+				return Float.floatToIntBits(Float.NaN);
 			default :
 				return 0;
 		}
