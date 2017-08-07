@@ -12,7 +12,7 @@ public abstract class CommandFactory {
 	private static final List<CommandType> COMMAND_TYPES = Collections.unmodifiableList(Arrays.asList(CommandType.values()));
 
 	public static enum CommandType {
-		REF, PCMD, PCMD_MAG/*, FTRIM, CONFIG, CONFIG_IDS, COMWDG, CALIB*/
+		REF, PCMD, PCMD_MAG
 	}
 
 	public static String makeCommand(int sequenceNumber, CommandType type, boolean safeMode) {

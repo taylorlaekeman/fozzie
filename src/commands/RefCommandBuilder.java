@@ -17,7 +17,7 @@ public class RefCommandBuilder extends CommandBuilder {
 	@Override
 	protected String makeValid(int sequenceNumber) {
 		return String.format(
-			"AT*REF=%d,%d<CR>",
+			"AT*REF=%s,%s\r",
 			sequenceNumber,
 			getValidFlag()
 		);
@@ -26,13 +26,13 @@ public class RefCommandBuilder extends CommandBuilder {
 	@Override
 	protected String makeInvalid(int sequenceNumber) {
 		return String.format(
-			"AT*REF=%d,%d<CR>",
+			"AT*REF=%s,%s\r",
 			sequenceNumber,
 			getInvalidFlag()
 		);
 	}
 
-	private int getValidFlag() {
+	private String getValidFlag() {
 		/*
 		 *	Sending a ref command with the takeoffAndLandBit set to 1 indicates
 		 *	that the drone should begin flying if it is not.
@@ -45,13 +45,14 @@ public class RefCommandBuilder extends CommandBuilder {
 		 */
 		int takeoffAndLandBit = CommandFactory.RANDOM.nextInt(2);
 		int emergencyBit = 0;
-		return (1 << 28) + (1 << 24) + (1 << 22) + (1 << 20) + (1 << 18) + (takeoffAndLandBit << 9) + (emergencyBit << 8);
+		int flag = (1 << 28) + (1 << 24) + (1 << 22) + (1 << 20) + (1 << 18) + (takeoffAndLandBit << 9) + (emergencyBit << 8);
+		return formatInt(flag);
 	}
 
-	private int getInvalidFlag() {
+	private String getInvalidFlag() {
 		int flag = CommandFactory.RANDOM.nextInt();
 		flag = flag & (~0 - (1 << 8)); // bitwise and with all 1's except in the emergency bit to ensure emergency bit = 0
 		flag = flag | (1 << 9); // bitwise or with 1 in the takeoff and land bit so the drone doesn't try to land
-		return flag;
+		return formatInt(flag);
 	}
 }

@@ -29,11 +29,11 @@ public class PcmdCommandBuilder extends CommandBuilder {
 	protected static float makeReservedBadFloat() {
 		switch (CommandFactory.RANDOM.nextInt(3)) {
 			case 0 :
-				return Float.floatToIntBits(Float.POSITIVE_INFINITY);
+				return Float.POSITIVE_INFINITY;
 			case 1 :
-				return Float.floatToIntBits(Float.NEGATIVE_INFINITY);
+				return Float.NEGATIVE_INFINITY;
 			case 2 :
-				return Float.floatToIntBits(Float.NaN);
+				return Float.NaN;
 			default :
 				return 0;
 		}
@@ -44,7 +44,7 @@ public class PcmdCommandBuilder extends CommandBuilder {
 	@Override
 	protected String makeValid(int sequenceNumber) {
 		return String.format(
-			"AT*PCMD=%d,%d,%f,%f,%f,%f<CR>",
+			"AT*PCMD=%d,%s,%s,%s,%s,%s\r",
 			sequenceNumber,
 			getValidFlag(),
 			getValidRoll(),
@@ -58,7 +58,7 @@ public class PcmdCommandBuilder extends CommandBuilder {
 	protected String makeInvalid(int sequenceNumber) {
 		// all values should not always be invalid
 		return String.format(
-			"AT*PCMD=%d,%d,%f,%f,%f,%f<CR>",
+			"AT*PCMD=%d,%s,%s,%s,%s,%s\r",
 			sequenceNumber,
 			CommandFactory.RANDOM.nextBoolean() ? getValidFlag() : getInvalidFlag(),
 			CommandFactory.RANDOM.nextBoolean() ? getValidRoll() : getInvalidRoll(),
@@ -68,48 +68,49 @@ public class PcmdCommandBuilder extends CommandBuilder {
 		);
 	}
 
-	protected int getValidFlag() {
+	protected String getValidFlag() {
     int absoluteControlEnableBit = CommandFactory.RANDOM.nextInt(2); 
     int combinedYawEnableBit = CommandFactory.RANDOM.nextInt(2);
     int progressiveCommandsEnableBit = 1;
-    return (absoluteControlEnableBit << 2) | (combinedYawEnableBit << 1) | progressiveCommandsEnableBit;
+    int flag = (absoluteControlEnableBit << 2) | (combinedYawEnableBit << 1) | progressiveCommandsEnableBit;
+		return formatInt(flag);
 	}
 
-	protected float getValidRoll() {
-		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
+	protected String getValidRoll() {
+		return formatFloat((CommandFactory.RANDOM.nextFloat() * 2) - 1);
 	}
 
-	protected float getValidPitch() {
-		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
+	protected String getValidPitch() {
+		return formatFloat((CommandFactory.RANDOM.nextFloat() * 2) - 1);
 	}
 
-	protected float getValidGaz() {
-		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
+	protected String getValidGaz() {
+		return formatFloat((CommandFactory.RANDOM.nextFloat() * 2) - 1);
 	}
 
-	protected float getValidYaw() {
-		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
+	protected String getValidYaw() {
+		return formatFloat((CommandFactory.RANDOM.nextFloat() * 2) - 1);
 	}
 
-	protected int getInvalidFlag() {
+	protected String getInvalidFlag() {
 		int flag = CommandFactory.RANDOM.nextInt(); // nextInt with no parameters generates a random number between 0 and 2^32 - 1
 		flag = flag | 1; // progressive commands enable bit = 1
-		return flag;
+		return formatInt(flag);
 	}
 
-	protected float getInvalidRoll() {
-		return makeBadFloat();
+	protected String getInvalidRoll() {
+		return formatFloat(makeBadFloat());
 	}
 
-	protected float getInvalidPitch() {
-		return makeBadFloat();
+	protected String getInvalidPitch() {
+		return formatFloat(makeBadFloat());
 	}
 
-	protected float getInvalidGaz() {
-		return makeBadFloat();
+	protected String getInvalidGaz() {
+		return formatFloat(makeBadFloat());
 	}
 
-	protected float getInvalidYaw() {
-		return makeBadFloat();
+	protected String getInvalidYaw() {
+		return formatFloat(makeBadFloat());
 	}
 }

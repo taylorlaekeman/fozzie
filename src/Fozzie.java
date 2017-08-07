@@ -24,7 +24,7 @@ public class Fozzie {
 		DatagramSocket socket = new DatagramSocket();
 		while (true) {
 			String command = CommandFactory.makeCommand(1, commandType, safeMode);
-			System.out.println(command);
+			System.out.println(command.replace("\r", "\\r"));
 			socket.send(buildPacket(command));
 			Thread.sleep(period);
 		}

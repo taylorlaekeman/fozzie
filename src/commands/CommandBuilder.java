@@ -13,16 +13,6 @@ public abstract class CommandBuilder {
         return PcmdCommandBuilder.getInstance();
       case PCMD_MAG :
         return PcmdMagCommandBuilder.getInstance();
-      /*case FTRIM :
-        return FtrimCommandBuilder.getInstance();
-      case CONFIG :
-        return ConfigCommandBuilder.getInstance();
-      case CONFIG_IDS :
-        return ConfigIdsCommandBuilder.getInstance();
-      case COMWDG :
-        return ComwdgCommandBuilder.getInstance();
-      case CALIB :
-        return CalibCommandBuilder.getInstance();*/
       default :
         return null;
 		}
@@ -35,7 +25,7 @@ public abstract class CommandBuilder {
 		else {
 			command = makeInvalid(sequenceNumber);
 			if (safeMode) {
-				command += "\\rAT*REF=1,290717696<CR>\\rAT*PCMD=1,0,0,0,0,0<CR>";
+				command += "AT*REF=1,290717696\rAT*PCMD=1,0,0,0,0,0\r";
 			}
 		}
 		return command;
@@ -46,5 +36,14 @@ public abstract class CommandBuilder {
 	protected String makeInvalid(int sequenceNumber) {
 		/* if no invalid commands exist, generate valid command */
 		return makeValid(sequenceNumber);
+	}
+
+	protected String formatFloat(float f) {
+		return formatInt(Float.floatToIntBits(f)); // integer representation of the bits in the float
+	}
+
+	protected String formatInt(int i) {
+		return Integer.toString(i); // signed integer representation of integers
+		//return Integer.toUnsignedString(i); // unsigned integer representation of integers
 	}
 }
