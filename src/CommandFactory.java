@@ -15,35 +15,11 @@ public abstract class CommandFactory {
 		REF, PCMD, PCMD_MAG, FTRIM, CONFIG, CONFIG_IDS, COMWDG, CALIB
 	}
 
-	public static String makeCommand() {
-		return buildCommand(1, getRandomCommandType(), RANDOM.nextBoolean());
-	}
-
-	public static String makeCommand(int sequenceNumber) {
-		return buildCommand(sequenceNumber, getRandomCommandType(), RANDOM.nextBoolean());
-	}
-
-	public static String makeCommand(CommandType type) {
-		return buildCommand(1, type, RANDOM.nextBoolean());
-	}
-
-	public static String makeCommand(boolean valid) {
-		return buildCommand(1, getRandomCommandType(), valid);
-	}
-
-	public static String makeCommand(int sequenceNumber, CommandType type) {
-		return buildCommand(sequenceNumber, type, RANDOM.nextBoolean());
-	}
-
-	public static String makeCommand(int sequenceNumber, boolean valid) {
-		return buildCommand(sequenceNumber, getRandomCommandType(), valid);
-	}
-
-	public static String makeCommand(CommandType type, boolean valid) {
-		return buildCommand(1, type, valid);
-	}
-
-	public static String makeCommand(int sequenceNumber, CommandType type, boolean valid) {
+	public static String makeCommand(int sequenceNumber, CommandType type, Boolean valid) {
+		if (type == null)
+			type = getRandomCommandType();
+		if (valid == null)
+			valid = RANDOM.nextBoolean();
 		return buildCommand(sequenceNumber, type, valid);
 	}
 
