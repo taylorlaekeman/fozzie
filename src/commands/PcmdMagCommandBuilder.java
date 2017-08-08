@@ -17,7 +17,7 @@ public class PcmdMagCommandBuilder extends PcmdCommandBuilder {
 	@Override
 	protected String makeValid(int sequenceNumber) {
 		return String.format(
-			"AT*PCMD_MAG=%d,%d,%f,%f,%f,%f,%f,%f<CR>",
+			"AT*PCMD_MAG=%d,%s,%s,%s,%s,%s,%s,%s\r",
 			sequenceNumber,
 			getValidFlag(),
 			getValidRoll(),
@@ -33,7 +33,7 @@ public class PcmdMagCommandBuilder extends PcmdCommandBuilder {
 	protected String makeInvalid(int sequenceNumber) {
 		// all values should not always be invalid
 		return String.format(
-			"AT*PCMD_MAG=%d,%d,%f,%f,%f,%f,%f,%f<CR>",
+			"AT*PCMD_MAG=%d,%s,%s,%s,%s,%s,%s,%s\r",
 			sequenceNumber,
 			CommandFactory.RANDOM.nextBoolean() ? getValidFlag() : getInvalidFlag(),
 			CommandFactory.RANDOM.nextBoolean() ? getValidRoll() : getInvalidRoll(),
@@ -45,19 +45,19 @@ public class PcmdMagCommandBuilder extends PcmdCommandBuilder {
 		);
 	}
 
-	protected float getValidPsi() {
-		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
+	protected String getValidPsi() {
+		return formatFloat((CommandFactory.RANDOM.nextFloat() * 2) - 1);
 	}
 
-	protected float getValidPsiAccuracy() {
-		return (CommandFactory.RANDOM.nextFloat() * 2) - 1;
+	protected String getValidPsiAccuracy() {
+		return formatFloat((CommandFactory.RANDOM.nextFloat() * 2) - 1);
 	}
 
-	protected float getInvalidPsi() {
-		return makeBadFloat();
+	protected String getInvalidPsi() {
+		return formatFloat(makeBadFloat());
 	}
 
-	protected float getInvalidPsiAccuracy() {
-		return makeBadFloat();
+	protected String getInvalidPsiAccuracy() {
+		return formatFloat(makeBadFloat());
 	}
 }

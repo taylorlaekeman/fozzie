@@ -10,3 +10,8 @@ sourceSets {
     }
   }
 }
+
+run {
+	if (System.getProperty("exec.args") != null)
+		args System.getProperty("exec.args").split()
+}
