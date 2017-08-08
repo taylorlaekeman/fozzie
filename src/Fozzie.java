@@ -2,47 +2,54 @@ package fozzie;
 
 import fozzie.CommandFactory;
 
-import java.io.*;
 import java.net.*;
-import java.lang.*;
 
 public class Fozzie {
+	private static final int PORT = 5556;
 	
-	private static final int DRONE_PORT = 5556;
-	private static final InetAddress IPAddress = InetAddress.getByName("192.168.1.1");
-  	private static final String SAFE_MODE = "AT*REF=1,290717696\rAT*PCMD=1,0,0,0,0,0\r"; // PCMD hovering mode
+	static CommandFactory.CommandType commandType;
+	static int period;
+	static boolean safeMode;
+	static InetAddress ip;
 
 	public static void main(String[] args) throws Exception {
 		try {
-			String cmd = args[0].toUpperCase();
-			int period = Integer.parseInt(args[1]);
-			int valid = Integer.parseInt(args[2]);
-			String commandString = "";
-			DatagramSocket clientSocket = new DatagramSocket();
+			ip = InetAddress.getByName("192.168.1.1");
+		} catch (UnknownHostException e) {
+			System.out.println("cannot find 192.168.1.1");
+			return;
+		}
 
-			while (true) {
-				commandString = CommandFactory.makeCommand(CommandFactory.CommandType.valueof(cmd), valid!=0).toString();
-				if (valid != 0  ) {
-					commandString += SAFE_MODE;
-				}
+		processArguments(args);
+		DatagramSocket socket = new DatagramSocket();
+		while (true) {
+			String command = CommandFactory.makeCommand(1, commandType, safeMode);
+			System.out.println(command.replace("\r", "\\r"));
+			socket.send(buildPacket(command));
+			Thread.sleep(period);
+		}
+	}
 
-
-				System.out.println(commandString.replace("\r", "\\r"));
-
-				byte[] commandBytes =  commandString.getBytes();
-				
-				//constructor arguments: (byte[] buf, int length, InetAddress address, int port)
-				DatagramPacket packetToSend = new DatagramPacket(commandBytes, commandBytes.length, IPAddress, DRONE_PORT);
-				clientSocket.send(packetToSend);
-				
-				Thread.sleep(period);
+	private static void processArguments(String[] args) {
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].equals("-c")) {
+				commandType = CommandFactory.CommandType.valueOf(args[i + 1]);
+				i++;
 			}
-			clientSocket.close();
+			if (args[i].equals("-p")) {
+				period = Integer.parseInt(args[i + 1]);
+				i++;
+			}
+			if (args[i].equals("-s")) {
+				safeMode = true;
+			}
 		}
+		if (period == 0)
+			period = 1000;
+	}
 
-		catch (Exception e) {
-		    System.out.println("Argument error.");
-		}
-
+	private static DatagramPacket buildPacket(String command) {
+		byte[] buffer = command.getBytes();
+		return new DatagramPacket(buffer, buffer.length, ip, PORT);
 	}
 }
